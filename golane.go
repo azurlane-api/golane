@@ -1,4 +1,4 @@
-package azurlane
+package golane
 
 import (
 	"bytes"
