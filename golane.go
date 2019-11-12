@@ -105,7 +105,7 @@ func (al AzurLane) GetShipByID(id string) (*structs.Ship, error) {
 // GetShips returns a list of ships from rarity, type or affiliation
 // order should be set using the "enum" Order, for example Order.TYPE
 // value depends on what order is set too, for example if `Order.RARITY` is used value can be `Super Rare`
-func (al AzurLane) GetShips(order order, value string) (*[]structs.SmallShip, error) {
+func (al AzurLane) GetShips(order order, value string) ([]structs.SmallShip, error) {
 	url := fmt.Sprintf("%s/ships?orderBy=%s&%s=%s", baseURL, order, order, value)
 	bytes, err := get(url, al.UserAgent)
 	if err != nil {
@@ -114,7 +114,7 @@ func (al AzurLane) GetShips(order order, value string) (*[]structs.SmallShip, er
 
 	var response = new(structs.ShipsResponse)
 	json.Unmarshal(bytes, &response)
-	return &response.Ships, nil
+	return response.Ships, nil
 }
 
 // GetBuildInfo retuns info about a certain construction time
