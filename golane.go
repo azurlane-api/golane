@@ -7,11 +7,13 @@ import (
 	"github.com/KurozeroPB/golane/structs"
 	"io"
 	"net/http"
+	"net/url"
+	"time"
 )
 
 const (
 	// Version the package version
-	Version = "1.0.0"
+	Version = "1.0.1"
 	baseURL = "https://azurlane-api.appspot.com/v1"
 )
 
@@ -47,8 +49,8 @@ func (al *AzurLane) Init(params ...string) {
 	}
 }
 
-func get(url string, ua string) ([]byte, error) {
-	request, err := http.NewRequest("GET", url, nil)
+func get(apiURL string, ua string) ([]byte, error) {
+	request, err := http.NewRequest("GET", url.PathEscape(apiURL), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +58,9 @@ func get(url string, ua string) ([]byte, error) {
 	request.Header.Set("User-Agent", ua)
 	request.Header.Set("Accept", "application/json")
 
-	client := http.Client{}
+	client := http.Client{
+		Timeout: time.Second * 10,
+	}
 	response, err := client.Do(request)
 	if err != nil {
 		return nil, err
