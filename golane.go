@@ -13,7 +13,7 @@ import (
 
 const (
 	// Version the package version
-	Version = "1.0.1"
+	Version = "1.0.2"
 	baseURL = "https://azurlane-api.appspot.com/v1"
 )
 
@@ -50,7 +50,7 @@ func (al *AzurLane) Init(params ...string) {
 }
 
 func get(apiURL string, ua string) ([]byte, error) {
-	request, err := http.NewRequest("GET", url.PathEscape(apiURL), nil)
+	request, err := http.NewRequest("GET", apiURL, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +82,7 @@ func get(apiURL string, ua string) ([]byte, error) {
 
 // GetShipByName get ship info by name
 func (al AzurLane) GetShipByName(name string) (*structs.Ship, error) {
-	url := fmt.Sprintf("%s/ship?name=%s", baseURL, name)
+	url := fmt.Sprintf("%s/ship?name=%s", baseURL, url.PathEscape(name))
 	bytes, err := get(url, al.UserAgent)
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ func (al AzurLane) GetShipByName(name string) (*structs.Ship, error) {
 
 // GetShipByID get ship info by id
 func (al AzurLane) GetShipByID(id string) (*structs.Ship, error) {
-	url := fmt.Sprintf("%s/ship?id=%s", baseURL, id)
+	url := fmt.Sprintf("%s/ship?id=%s", baseURL, url.PathEscape(id))
 	bytes, err := get(url, al.UserAgent)
 	if err != nil {
 		return nil, err
@@ -110,7 +110,7 @@ func (al AzurLane) GetShipByID(id string) (*structs.Ship, error) {
 // order should be set using the "enum" Order, for example Order.TYPE
 // value depends on what order is set too, for example if `Order.RARITY` is used value can be `Super Rare`
 func (al AzurLane) GetShips(order order, value string) ([]structs.SmallShip, error) {
-	url := fmt.Sprintf("%s/ships?orderBy=%s&%s=%s", baseURL, order, order, value)
+	url := fmt.Sprintf("%s/ships?orderBy=%s&%s=%s", baseURL, order, order, url.PathEscape(value))
 	bytes, err := get(url, al.UserAgent)
 	if err != nil {
 		return nil, err
@@ -123,7 +123,7 @@ func (al AzurLane) GetShips(order order, value string) ([]structs.SmallShip, err
 
 // GetBuildInfo retuns info about a certain construction time
 func (al AzurLane) GetBuildInfo(time string) (*structs.Construction, error) {
-	url := fmt.Sprintf("%s/build?time=%s", baseURL, time)
+	url := fmt.Sprintf("%s/build?time=%s", baseURL, url.PathEscape(time))
 	bytes, err := get(url, al.UserAgent)
 	if err != nil {
 		return nil, err
