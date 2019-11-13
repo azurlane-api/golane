@@ -121,7 +121,7 @@ func (al AzurLane) GetShips(order order, value string) ([]structs.SmallShip, err
 	return response.Ships, nil
 }
 
-// GetBuildInfo retuns info about a certain construction time
+// GetBuildInfo returns info about a certain construction time
 func (al AzurLane) GetBuildInfo(time string) (*structs.Construction, error) {
 	url := fmt.Sprintf("%s/build?time=%s", baseURL, url.PathEscape(time))
 	bytes, err := get(url, al.UserAgent)
