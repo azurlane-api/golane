@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/KurozeroPB/golane/structs"
+	"github.com/azurlane-api/golane/structs"
 	"io"
 	"net/http"
 	"net/url"
@@ -18,7 +18,7 @@ const (
 )
 
 var (
-	userAgent = fmt.Sprintf("golane/%s (https://github.com/KurozeroPB/golane)", Version)
+	userAgent = fmt.Sprintf("golane/%s (https://github.com/azurlane-api/golane)", Version)
 	// Order enum of order
 	Order = &orderBy{
 		RARITY:      "rarity",

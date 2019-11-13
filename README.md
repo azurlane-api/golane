@@ -1,10 +1,10 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/KurozeroPB/golane)](https://goreportcard.com/report/github.com/KurozeroPB/golane)
+[![Go Report Card](https://goreportcard.com/badge/github.com/azurlane-api/golane)](https://goreportcard.com/report/github.com/azurlane-api/golane)
 
 # golane
 Wrapper for the unofficial azur lane json api in Go
 
 ## Docs
-https://godoc.org/github.com/KurozeroPB/golane
+https://godoc.org/github.com/azurlane-api/golane
 
 ## Example
 ```go
@@ -12,7 +12,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/KurozeroPB/golane"
+	"github.com/azurlane-api/golane"
 )
 
 func main() {
