@@ -13,26 +13,26 @@ import (
 
 const (
 	// Version the package version
-	Version = "1.0.2"
-	baseURL = "https://azurlane-api.appspot.com/v1"
+	Version = "1.1.0"
+	baseURL = "https://azurlane-api.herokuapp.com/v2"
 )
 
 var (
 	userAgent = fmt.Sprintf("golane/%s (https://github.com/azurlane-api/golane)", Version)
-	// Order enum of order
-	Order = &orderBy{
+	// Category enum of categories
+	Category = &category{
 		RARITY:      "rarity",
 		TYPE:        "type",
 		AFFILIATION: "affiliation",
 	}
 )
 
-type order string
+type categoryItem string
 
-type orderBy struct {
-	RARITY      order
-	TYPE        order
-	AFFILIATION order
+type category struct {
+	RARITY      categoryItem
+	TYPE        categoryItem
+	AFFILIATION categoryItem
 }
 
 // AzurLane set default settings
@@ -109,8 +109,8 @@ func (al AzurLane) GetShipByID(id string) (*structs.Ship, error) {
 // GetShips returns a list of ships from rarity, type or affiliation
 // order should be set using the "enum" Order, for example Order.TYPE
 // value depends on what order is set too, for example if `Order.RARITY` is used value can be `Super Rare`
-func (al AzurLane) GetShips(order order, value string) ([]structs.SmallShip, error) {
-	url := fmt.Sprintf("%s/ships?orderBy=%s&%s=%s", baseURL, order, order, url.PathEscape(value))
+func (al AzurLane) GetShips(category categoryItem, value string) ([]structs.SmallShip, error) {
+	url := fmt.Sprintf("%s/ships?category=%s&%s=%s", baseURL, category, category, url.PathEscape(value))
 	bytes, err := get(url, al.UserAgent)
 	if err != nil {
 		return nil, err

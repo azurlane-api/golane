@@ -30,11 +30,11 @@ type Stat struct {
 
 // Stats lists of the ships stats
 type Stats struct {
-	Hundred       []Stat `json:"100"`
-	HundredTwenty []Stat `json:"120"`
-	Base          []Stat
-	Retrofit100   []Stat
-	Retrofit120   []Stat
+	Level100    []Stat
+	Level120    []Stat
+	Base        []Stat
+	Retrofit100 []Stat
+	Retrofit120 []Stat
 }
 
 // MiscellaneousData link and name of artists
