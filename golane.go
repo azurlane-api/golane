@@ -38,24 +38,33 @@ type category struct {
 // AzurLane set default settings
 type AzurLane struct {
 	UserAgent string
+	Token     string
 }
 
-// Init initialize struct, first param can be user-agent to set a custom one, leave empty to use the package ua
-func (al *AzurLane) Init(params ...string) {
-	if len(params) > 0 {
-		al.UserAgent = params[0]
-	} else {
+// Options the header options
+type Options struct {
+	UserAgent string
+	Token     string
+}
+
+// Init initialize struct with header options param, use an empty string for UserAgent to use the default value
+func (al *AzurLane) Init(options Options) {
+	if options.UserAgent == "" {
 		al.UserAgent = userAgent
+	} else {
+		al.UserAgent = options.UserAgent
 	}
+	al.Token = options.Token
 }
 
-func get(apiURL string, ua string) ([]byte, error) {
+func get(apiURL string, options Options) ([]byte, error) {
 	request, err := http.NewRequest("GET", apiURL, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	request.Header.Set("User-Agent", ua)
+	request.Header.Set("Authorization", options.Token)
+	request.Header.Set("User-Agent", options.UserAgent)
 	request.Header.Set("Accept", "application/json")
 
 	client := http.Client{
@@ -83,7 +92,7 @@ func get(apiURL string, ua string) ([]byte, error) {
 // GetShipByName get ship info by name
 func (al AzurLane) GetShipByName(name string) (*structs.Ship, error) {
 	url := fmt.Sprintf("%s/ship?name=%s", baseURL, url.PathEscape(name))
-	bytes, err := get(url, al.UserAgent)
+	bytes, err := get(url, Options{al.UserAgent, al.Token})
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +105,7 @@ func (al AzurLane) GetShipByName(name string) (*structs.Ship, error) {
 // GetShipByID get ship info by id
 func (al AzurLane) GetShipByID(id string) (*structs.Ship, error) {
 	url := fmt.Sprintf("%s/ship?id=%s", baseURL, url.PathEscape(id))
-	bytes, err := get(url, al.UserAgent)
+	bytes, err := get(url, Options{al.UserAgent, al.Token})
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +120,7 @@ func (al AzurLane) GetShipByID(id string) (*structs.Ship, error) {
 // value depends on what order is set too, for example if `Order.RARITY` is used value can be `Super Rare`
 func (al AzurLane) GetShips(category categoryItem, value string) ([]structs.SmallShip, error) {
 	url := fmt.Sprintf("%s/ships?category=%s&%s=%s", baseURL, category, category, url.PathEscape(value))
-	bytes, err := get(url, al.UserAgent)
+	bytes, err := get(url, Options{al.UserAgent, al.Token})
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +133,7 @@ func (al AzurLane) GetShips(category categoryItem, value string) ([]structs.Smal
 // GetBuildInfo returns info about a certain construction time
 func (al AzurLane) GetBuildInfo(time string) (*structs.Construction, error) {
 	url := fmt.Sprintf("%s/build?time=%s", baseURL, url.PathEscape(time))
-	bytes, err := get(url, al.UserAgent)
+	bytes, err := get(url, Options{al.UserAgent, al.Token})
 	if err != nil {
 		return nil, err
 	}
