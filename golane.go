@@ -13,7 +13,7 @@ import (
 
 const (
 	// Version the package version
-	Version = "1.2.0"
+	Version = "1.3.0"
 	baseURL = "https://azurlane-api.herokuapp.com/v2"
 )
 
